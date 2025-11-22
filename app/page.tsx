@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import '@/app/globals.css';
+import '@/app/globals.css'; // Will be updated for dark/pop theme
 
 // ---------------------------
 // TYPESCRIPT INTERFACE
@@ -15,10 +15,9 @@ interface LoveResult {
 }
 
 // ---------------------------
-// ലവ് കാൽക്കുലേഷൻ ലോജിക് (ഫൺ അൽഗോരിതം)
+// LOVE CALCULATION LOGIC (The Fun Algorithm)
 // ---------------------------
 const calculateLove = (name1: string, name2: string): number => {
-    // പേരുകൾ ചെറുതാക്കി കോമ്പിനേഷനായി എടുക്കുന്നു
     const combinedNames = (name1.toLowerCase() + name2.toLowerCase()).replace(/\s/g, '');
     const counts: { [key: string]: number } = {};
     for (const char of combinedNames) {
@@ -43,7 +42,7 @@ const calculateLove = (name1: string, name2: string): number => {
     // Normalization and fun adjustments
     if (percentage > 100) percentage = percentage % 100;
     if (percentage < 10) percentage = percentage * 10;
-    if (percentage < 30) percentage += 15; // A little boost for fun!
+    if (percentage < 30) percentage += 15;
 
     return Math.min(100, percentage);
 };
@@ -66,18 +65,18 @@ export default function LoveCalculator() {
         setResult(null);
 
         if (!yourName || !yourAge || !crushName || isNaN(parseInt(yourAge))) {
-            setError('എല്ലാ വിവരങ്ങളും ശരിയായി നൽകുക.');
+            setError('Please provide valid details for all fields.');
             setLoading(false);
             return;
         }
 
-        // 1. ലവ് പെർസന്റേജ് കാൽക്കുലേറ്റ് ചെയ്യുന്നു
+        // 1. Calculate Love Percentage
         const calculatedPercentage: number = calculateLove(yourName, crushName);
         
-        // 2. റിസൾട്ട് കാണിക്കുന്നു
+        // 2. Display Result
         setResult(calculatedPercentage);
 
-        // 3. ഡാറ്റാബേസിലേക്ക് ഡാറ്റ സേവ് ചെയ്യുന്നു (API call)
+        // 3. Attempt to save data to database (API call)
         try {
             const dataToSave: LoveResult = {
                 yourName,
@@ -86,54 +85,94 @@ export default function LoveCalculator() {
                 calculatedPercentage,
             };
 
-            // API കോൾ
             await axios.post('/api/calculate', dataToSave);
             console.log('Data saved successfully to MongoDB!');
 
         } catch (err: any) {
             console.error('API request failed:', err.response?.data?.errorDetail || err.message);
-            // 500 എറർ വന്നാൽ പോലും റിസൾട്ട് കാണിക്കണം
-            setError(`ഡാറ്റാബേസിലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിഴവ്. കാരണം: ${err.response?.data?.errorDetail || 'കണക്ഷൻ എറർ'}`);
+            // Show result even if DB fails
+            setError(`DB Save Error: ${err.response?.data?.errorDetail || 'Connection Failed'}. Showing result.`);
         } finally {
             setLoading(false);
         }
     };
 
+    // Determine Emojis and Message based on score
+    const getResultContent = (score: number) => {
+        if (score >= 80) {
+            return {
+                emoji: '💖✨',
+                message: 'A perfect cosmic match! Your destinies are intertwined.',
+                theme: 'high',
+                giftText: 'Download your exclusive **"Soulmate Success Guide"**!',
+            };
+        }
+        if (score >= 50) {
+            return {
+                emoji: '💕😊',
+                message: 'A great connection with high potential. Keep the spark alive!',
+                theme: 'medium',
+                giftText: 'Download your **"Relationship Booster PDF"** now!',
+            };
+        }
+        return {
+            emoji: '💔😢',
+            message: "Hmm... maybe you're better off as friends. Don't be sad, there's always someone new!",
+            theme: 'low',
+            giftText: 'Download your **"Moving On & Glow-Up Guide"**!',
+        };
+    };
+
     return (
         <main className="main-container">
-            <h1 className="title">💖 ലവ് കാൽക്കുലേറ്റർ 💘</h1>
+            <h1 className="title">💘 Neo-Love Calculator 💖</h1>
+            <p className="subtitle">Discover your destiny in the digital age.</p>
             
             <form onSubmit={handleSubmit} className="form-card">
                 <div className="input-group">
-                    <label>നിങ്ങളുടെ പേര്:</label>
-                    <input type="text" value={yourName} onChange={(e) => setYourName(e.target.value)} required />
+                    <label>Your Name:</label>
+                    <input type="text" value={yourName} onChange={(e) => setYourName(e.target.value)} required placeholder="Enter your name" />
                 </div>
                 <div className="input-group">
-                    <label>നിങ്ങളുടെ വയസ്സ്:</label>
-                    <input type="number" value={yourAge} onChange={(e) => setYourAge(e.target.value)} min="16" required />
+                    <label>Your Age:</label>
+                    <input type="number" value={yourAge} onChange={(e) => setYourAge(e.target.value)} min="16" required placeholder="Age must be 16+" />
                 </div>
                 <div className="input-group">
-                    <label>ക്രഷിന്റെ പേര്:</label>
-                    <input type="text" value={crushName} onChange={(e) => setCrushName(e.target.value)} required />
+                    <label>Crush's Name:</label>
+                    <input type="text" value={crushName} onChange={(e) => setCrushName(e.target.value)} required placeholder="Enter crush's name" />
                 </div>
 
                 <button type="submit" disabled={loading} className="calculate-button">
-                    {loading ? 'കാൽക്കുലേറ്റിംഗ്...' : '✨ ലവ് കാൽക്കുലേറ്റ് ചെയ്യുക ✨'}
+                    {loading ? 'Calculating Destiny...' : '✨ Calculate Love Score ✨'}
                 </button>
             </form>
 
             {error && <p className="error-message">🚨 {error}</p>}
 
             {result !== null && (
-                <div className="result-box">
-                    <h2>💞 മാച്ച് റിസൾട്ട് 💞</h2>
+                <div className={`result-box ${getResultContent(result).theme}`}>
+                    <h2>{getResultContent(result).emoji} Match Result {getResultContent(result).emoji}</h2>
                     <div className="percentage-circle">
                         <span className="percentage-number">{result}%</span>
                     </div>
                     <p className="message">
-                        {yourName} ഉം {crushName} ഉം തമ്മിലുള്ള ലവ് മാച്ച് **{result}%** ആണ്!
+                        **{yourName}** and **{crushName}** have a **{result}%** love match!
+                        <br /><span className="score-message">{getResultContent(result).message}</span>
                     </p>
-                    <p className="note">*(നിങ്ങളുടെ വിവരങ്ങൾ ഡാറ്റാബേസിൽ സ്റ്റോർ ചെയ്യാൻ ശ്രമിച്ചു.)</p>
+
+                    <div className="gift-section">
+                        <h3>🎁 Exclusive Gift for You</h3>
+                        <p>{getResultContent(result).giftText}</p>
+                        <a 
+                            href="https://example.com/gift-pdf-link" // Replace with your actual PDF link
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="gift-button"
+                        >
+                            Download PDF Now!
+                        </a>
+                    </div>
+                    <p className="note">*(Ai MAN)</p>
                 </div>
             )}
         </main>

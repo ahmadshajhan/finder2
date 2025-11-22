@@ -1,70 +1,79 @@
-/* ഗ്ലോബൽ സ്റ്റൈലുകൾ */
+/* GLOBAL STYLES: Dark Theme */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f76b8a, #f8a1d1); 
-    color: #333;
+    font-family: 'Poppins', sans-serif; /* Modern Font */
+    background: #1a1a2e; /* Deep Space Blue/Black Background */
+    color: #fff;
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.title {
-    color: #fff;
-    margin-bottom: 30px;
-    font-size: 2.5em;
-    font-weight: 800;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 30px 20px;
+    width: 95%;
+    max-width: 500px;
     text-align: center;
 }
 
-/* ഫോം കാർഡ് */
+.title {
+    color: #ff007a; /* Pop Color 1: Neon Pink */
+    margin-bottom: 5px;
+    font-size: 2.8em;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 0, 122, 0.5);
+}
+
+.subtitle {
+    color: #00f0ff; /* Pop Color 2: Cyan */
+    margin-bottom: 30px;
+    font-size: 1.1em;
+    font-weight: 400;
+}
+
+/* FORM CARD: Neon Style */
 .form-card {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 400px;
+    background: #232946; /* Darker card background */
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); /* Neon glow effect */
 }
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     text-align: left;
 }
 
 .input-group label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #e91e63;
-    font-size: 1.1em;
+    font-weight: 600;
+    color: #00f0ff; /* Cyan Label */
+    font-size: 1em;
 }
 
 .input-group input {
     width: 100%;
     padding: 12px;
-    border: 2px solid #f06292;
-    border-radius: 10px;
+    background: #1a1a2e; /* Input dark background */
+    color: #fff;
+    border: 2px solid #ff007a; /* Neon Pink Border */
+    border-radius: 8px;
     box-sizing: border-box;
     font-size: 1em;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .input-group input:focus {
-    border-color: #ad1457;
+    border-color: #00f0ff; /* Focus Glow */
     outline: none;
-    box-shadow: 0 0 5px rgba(233, 30, 99, 0.5);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .calculate-button {
-    background-color: #e91e63;
+    background-color: #ff007a; /* Neon Pink Button */
     color: white;
     padding: 15px 30px;
     border: none;
@@ -72,83 +81,150 @@ body {
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;
-    transition: background-color 0.3s, transform 0.1s;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
     width: 100%;
-    margin-top: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(255, 0, 122, 0.4);
 }
 
 .calculate-button:hover {
-    background-color: #ad1457;
-    transform: translateY(-1px);
+    background-color: #e6006e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 122, 0.6);
 }
 
 .calculate-button:disabled {
-    background-color: #f8bbd0;
+    background-color: #3f3e5b;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
-/* റിസൾട്ട് ബോക്സ് */
+/* RESULT BOX: Dynamic Theming */
 .result-box {
-    margin-top: 30px;
-    padding: 25px;
-    background: #fff0f5;
-    border: 3px solid #e91e63;
+    margin-top: 35px;
+    padding: 30px;
     border-radius: 15px;
     text-align: center;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 3px solid;
+    transition: all 0.5s ease;
 }
 
 .result-box h2 {
-    color: #d81b60;
-    font-size: 1.8em;
+    font-size: 2em;
     margin-top: 0;
+    font-weight: 700;
 }
 
+/* HIGH SCORE THEME */
+.result-box.high {
+    background: #1a2e23;
+    border-color: #00ff88; /* Green Pop */
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+    color: #e0ffe0;
+}
+
+/* MEDIUM SCORE THEME */
+.result-box.medium {
+    background: #2e2b1a;
+    border-color: #ffff00; /* Yellow Pop */
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.4);
+    color: #ffffe0;
+}
+
+/* LOW SCORE THEME */
+.result-box.low {
+    background: #2e1a1e;
+    border-color: #ff4500; /* Orange-Red Pop */
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+    color: #ffe0e0;
+}
+
+
 .percentage-circle {
-    width: 140px;
-    height: 140px;
-    background: #ffcdd2;
+    width: 150px;
+    height: 150px;
+    background: #3f3e5b; /* Circle Background */
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px auto;
-    border: 6px solid #e91e63;
-    box-shadow: 0 0 15px rgba(233, 30, 99, 0.6);
+    margin: 25px auto;
+    border: 6px solid; /* Border color will be set dynamically by .high, .medium, .low */
+    transition: border-color 0.5s ease, box-shadow 0.5s ease;
 }
 
+.result-box.high .percentage-circle { border-color: #00ff88; }
+.result-box.medium .percentage-circle { border-color: #ffff00; }
+.result-box.low .percentage-circle { border-color: #ff4500; }
+
+
 .percentage-number {
-    font-size: 3.5em;
+    font-size: 4em;
     font-weight: 900;
-    color: #ad1457;
-    text-shadow: 2px 2px 0px white;
+    color: #ff007a; /* Neon Pink Number */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
 .message {
-    font-size: 1.2em;
-    color: #333;
-    margin-top: 20px;
+    font-size: 1.1em;
+    margin-top: 15px;
     line-height: 1.5;
+}
+
+.score-message {
+    font-style: italic;
+    font-weight: 500;
+}
+
+/* GIFT SECTION STYLES */
+.gift-section {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px dashed #00f0ff; /* Cyan dashed border */
+    border-radius: 10px;
+    background: rgba(0, 240, 255, 0.05);
+}
+
+.gift-section h3 {
+    color: #00f0ff;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.gift-button {
+    display: inline-block;
+    background-color: #00f0ff; /* Cyan Button */
+    color: #1a1a2e;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 15px;
+    box-shadow: 0 4px 10px rgba(0, 240, 255, 0.4);
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.gift-button:hover {
+    background-color: #00d0e6;
+    transform: translateY(-1px);
 }
 
 .note {
     font-size: 0.8em;
-    color: #777;
-    margin-top: 15px;
+    color: #aaa;
+    margin-top: 20px;
 }
 
 .error-message {
     color: #fff;
-    background-color: #d32f2f;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #ff4500; /* Orange-Red Error Bar */
+    padding: 15px;
+    border-radius: 8px;
     margin-top: 20px;
     font-weight: bold;
     width: 90%;
     max-width: 400px;
     text-align: center;
-    word-break: break-word; /* നീണ്ട എറർ സന്ദേശങ്ങൾക്കായി */
+    word-break: break-word;
 }
