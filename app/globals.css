@@ -1,26 +1,152 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f76b8a, #f8a1d1); /* Attractive Gradient */
+    color: #333;
+    min-height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.title {
+    color: #fff;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 800;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* ഫോം കാർഡ് */
+.form-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #e91e63;
+    font-size: 1.1em;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #f06292;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #ad1457;
+    outline: none;
+    box-shadow: 0 0 5px rgba(233, 30, 99, 0.5);
+}
+
+.calculate-button {
+    background-color: #e91e63;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+    width: 100%;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calculate-button:hover {
+    background-color: #ad1457;
+    transform: translateY(-1px);
+}
+
+.calculate-button:disabled {
+    background-color: #f8bbd0;
+    cursor: not-allowed;
+}
+
+/* റിസൾട്ട് ബോക്സ് */
+.result-box {
+    margin-top: 30px;
+    padding: 25px;
+    background: #fff0f5;
+    border: 3px solid #e91e63;
+    border-radius: 15px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.result-box h2 {
+    color: #d81b60;
+    font-size: 1.8em;
+    margin-top: 0;
+}
+
+.percentage-circle {
+    width: 140px;
+    height: 140px;
+    background: #ffcdd2;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    border: 6px solid #e91e63;
+    box-shadow: 0 0 15px rgba(233, 30, 99, 0.6);
+}
+
+.percentage-number {
+    font-size: 3.5em;
+    font-weight: 900;
+    color: #ad1457;
+    text-shadow: 2px 2px 0px white;
+}
+
+.message {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+.note {
+    font-size: 0.8em;
+    color: #777;
+    margin-top: 15px;
+}
+
+.error-message {
+    color: #fff;
+    background-color: #d32f2f;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
 }
