@@ -1,7 +1,8 @@
+/* ഗ്ലോബൽ സ്റ്റൈലുകൾ */
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f76b8a, #f8a1d1); /* Attractive Gradient */
+    background: linear-gradient(135deg, #f76b8a, #f8a1d1); 
     color: #333;
     min-height: 100vh;
 }
@@ -149,4 +150,5 @@ body {
     width: 90%;
     max-width: 400px;
     text-align: center;
+    word-break: break-word; /* നീണ്ട എറർ സന്ദേശങ്ങൾക്കായി */
 }

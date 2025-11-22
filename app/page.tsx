@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import '@/app/globals.css'; // സ്റ്റൈലുകൾ ഇമ്പോർട്ട് ചെയ്യുന്നു
+import '@/app/globals.css';
 
 // ---------------------------
-// TYPESCRIPT INTERFACE (ഡാറ്റാ ടൈപ്പുകൾ)
+// TYPESCRIPT INTERFACE
 // ---------------------------
 interface LoveResult {
     yourName: string;
@@ -15,9 +15,10 @@ interface LoveResult {
 }
 
 // ---------------------------
-// ലവ് കാൽക്കുലേഷൻ ലോജിക്
+// ലവ് കാൽക്കുലേഷൻ ലോജിക് (ഫൺ അൽഗോരിതം)
 // ---------------------------
 const calculateLove = (name1: string, name2: string): number => {
+    // പേരുകൾ ചെറുതാക്കി കോമ്പിനേഷനായി എടുക്കുന്നു
     const combinedNames = (name1.toLowerCase() + name2.toLowerCase()).replace(/\s/g, '');
     const counts: { [key: string]: number } = {};
     for (const char of combinedNames) {
@@ -26,7 +27,7 @@ const calculateLove = (name1: string, name2: string): number => {
 
     let numbers = Object.values(counts);
 
-    // Love Algorithm: First and Last digit sum
+    // Iterative summation and modulus
     while (numbers.length > 2) {
         const newNumbers: number[] = [];
         for (let i = 0; i < Math.ceil(numbers.length / 2); i++) {
@@ -38,11 +39,11 @@ const calculateLove = (name1: string, name2: string): number => {
     }
 
     let percentage = parseInt(numbers.join(''));
+    
+    // Normalization and fun adjustments
     if (percentage > 100) percentage = percentage % 100;
     if (percentage < 10) percentage = percentage * 10;
-    
-    // 60-100 റേഞ്ചിൽ കൂടുതൽ കിട്ടാൻ ഒരു ചെറിയ ബൂസ്റ്റ്
-    if (percentage > 20 && percentage < 50) percentage += 30;
+    if (percentage < 30) percentage += 15; // A little boost for fun!
 
     return Math.min(100, percentage);
 };
@@ -64,8 +65,8 @@ export default function LoveCalculator() {
         setError(null);
         setResult(null);
 
-        if (!yourName || !yourAge || !crushName) {
-            setError('എല്ലാ വിവരങ്ങളും നൽകുക.');
+        if (!yourName || !yourAge || !crushName || isNaN(parseInt(yourAge))) {
+            setError('എല്ലാ വിവരങ്ങളും ശരിയായി നൽകുക.');
             setLoading(false);
             return;
         }
@@ -85,14 +86,14 @@ export default function LoveCalculator() {
                 calculatedPercentage,
             };
 
-            // /api/calculate എന്ന ബാക്ക്എൻഡ് എൻഡ്പോയിന്റിലേക്ക് ഡാറ്റ അയക്കുന്നു
+            // API കോൾ
             await axios.post('/api/calculate', dataToSave);
             console.log('Data saved successfully to MongoDB!');
 
         } catch (err: any) {
-            console.error('Error saving data:', err);
-            // ഡാറ്റാബേസ് എറർ ഉണ്ടെങ്കിലും റിസൾട്ട് കാണിക്കണം
-            setError('ഡാറ്റാബേസിലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിഴവ്. എങ്കിലും റിസൾട്ട് കാണാം.');
+            console.error('API request failed:', err.response?.data?.errorDetail || err.message);
+            // 500 എറർ വന്നാൽ പോലും റിസൾട്ട് കാണിക്കണം
+            setError(`ഡാറ്റാബേസിലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിഴവ്. കാരണം: ${err.response?.data?.errorDetail || 'കണക്ഷൻ എറർ'}`);
         } finally {
             setLoading(false);
         }
@@ -132,7 +133,7 @@ export default function LoveCalculator() {
                     <p className="message">
                         {yourName} ഉം {crushName} ഉം തമ്മിലുള്ള ലവ് മാച്ച് **{result}%** ആണ്!
                     </p>
-                    <p className="note">*(നിങ്ങളുടെ വിവരങ്ങൾ ഡാറ്റാബേസിൽ സ്റ്റോർ ചെയ്തിരിക്കുന്നു.)</p>
+                    <p className="note">*(നിങ്ങളുടെ വിവരങ്ങൾ ഡാറ്റാബേസിൽ സ്റ്റോർ ചെയ്യാൻ ശ്രമിച്ചു.)</p>
                 </div>
             )}
         </main>

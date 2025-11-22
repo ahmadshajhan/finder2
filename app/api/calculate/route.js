@@ -1,15 +1,20 @@
 import { NextResponse } from 'next/server';
-import User, { dbConnect } from '@/models/User';
+// User മോഡലും dbConnect ഫംഗ്ഷനും ഇമ്പോർട്ട് ചെയ്യുന്നു
+import User, { dbConnect } from '@/models/User'; 
 
-// POST request handler
 export async function POST(request) {
     try {
-        await dbConnect(); // ഡാറ്റാബേസ് കണക്ട് ചെയ്യുന്നു
+        await dbConnect(); // MongoDB-യുമായി ബന്ധിപ്പിക്കുന്നു
 
         const body = await request.json();
         const { yourName, yourAge, crushName, calculatedPercentage } = body;
 
-        // ഡാറ്റാബേസിൽ സേവ് ചെയ്യാനുള്ള പുതിയ യൂസർ ഒബ്ജക്റ്റ്
+        // ഡാറ്റാ Validation
+        if (!yourName || !yourAge || !crushName || calculatedPercentage === undefined) {
+            return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+        }
+
+        // പുതിയ യൂസർ ഡാറ്റ ക്രിയേറ്റ് ചെയ്യുന്നു
         const newUser = new User({
             yourName,
             yourAge: parseInt(yourAge),
@@ -25,9 +30,15 @@ export async function POST(request) {
             { status: 201 }
         );
     } catch (error) {
-        console.error('API Error:', error);
+        // ഡാറ്റാബേസ് കണക്ഷൻ എറർ ഉൾപ്പെടെയുള്ളവ ഇവിടെ പിടിക്കപ്പെടുന്നു
+        console.error('API Server Error (POST /api/calculate):', error);
+        
+        // ക്ലയിന്റിന് വ്യക്തമായ സന്ദേശം നൽകുന്നു
         return NextResponse.json(
-            { message: 'Error saving data to database.', error: error.message },
+            { 
+                message: 'Error saving data to database.', 
+                errorDetail: error.message 
+            },
             { status: 500 }
         );
     }
